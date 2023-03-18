@@ -1,0 +1,224 @@
+{
+    "args": {
+        "att": 0,
+        "bert_lr": 1e-05,
+        "bert_token_type": false,
+        "bert_version": "FPTAI/velectra-base-discriminator-cased",
+        "bs": 4,
+        "checkpoint_step": null,
+        "clip_grad": 0.3,
+        "combine_latent_relations": false,
+        "cv_link": false,
+        "data_scheduler": "mixed_db_scheduler",
+        "device": "cuda:0",
+        "discrete_relation": false,
+        "end_lr": 0,
+        "first_order": false,
+        "include_literals": true,
+        "loss_type": "softmax",
+        "lr": 6e-05,
+        "lr_scheduler": "bert_warmup_polynomial_group_v2",
+        "mask_type": "l0",
+        "max_steps": 20000,
+        "meta_lr": 0.0001,
+        "meta_opt": "sgd",
+        "norm_relation": false,
+        "num_batch_accumulated": 3,
+        "num_batch_per_train": 3,
+        "num_latent_relations": 3,
+        "num_layers": 6,
+        "opt": "torchAdamw",
+        "pretrain_path": null,
+        "save_threshold": 19000,
+        "sc_link": false,
+        "slow_parameters": null,
+        "symmetric_relation": true,
+        "use_align_loss": false,
+        "use_bert_training": true,
+        "use_latent_relations": false,
+        "use_mask": false,
+        "use_other_train": true,
+        "use_sinkhorn": true
+    },
+    "data": {
+        "test": {
+            "db_path": "data/vi-spider/data/word-level/database",
+            "name": "spider",
+            "paths": [
+                "data/vi-spider/data/word-level/test.json"
+            ],
+            "tables_paths": [
+                "data/vi-spider/data/word-level/tables.json"
+            ]
+        },
+        "train": {
+            "db_path": "data/vi-spider/data/word-level/database",
+            "name": "spider",
+            "paths": [
+                "data/vi-spider/data/word-level/train.json"
+            ],
+            "tables_paths": [
+                "data/vi-spider/data/word-level/tables.json"
+            ]
+        },
+        "val": {
+            "db_path": "data/vi-spider/data/word-level/database",
+            "name": "spider",
+            "paths": [
+                "data/vi-spider/data/word-level/dev.json"
+            ],
+            "tables_paths": [
+                "data/vi-spider/data/word-level/tables.json"
+            ]
+        }
+    },
+    "lr_scheduler": {
+        "decay_steps": 19500,
+        "end_lr": 0,
+        "name": "bert_warmup_polynomial_group_v2",
+        "num_warmup_steps": 500,
+        "power": 0.5,
+        "start_lr": 6e-05,
+        "start_lrs": [
+            6e-05,
+            1e-05
+        ]
+    },
+    "meta_test": {
+        "batch_size": 4,
+        "clip_grad": 0.3,
+        "data_scheduler": {
+            "batch_size": 4,
+            "name": "random_scheduler_meta_test"
+        },
+        "data_seed": 0,
+        "device": "cuda:0",
+        "eval_batch_size": 4,
+        "eval_every_n": 100,
+        "first_order": false,
+        "init_seed": 0,
+        "inner_opt": {
+            "lr": 0.0001,
+            "name": "sgd"
+        },
+        "keep_every_n": 100,
+        "max_steps": 20000,
+        "model_seed": 0,
+        "num_batch_accumulated": 3,
+        "num_eval_items": 50,
+        "report_every_n": 10,
+        "save_every_n": 100,
+        "save_threshold": 19000,
+        "use_bert_training": true
+    },
+    "meta_train": {
+        "batch_size": 4,
+        "clip_grad": 0.3,
+        "data_scheduler": {
+            "batch_size": 4,
+            "name": "mixed_db_scheduler",
+            "num_batch_per_train": 3,
+            "use_similarity": true
+        },
+        "data_seed": 0,
+        "device": "cuda:0",
+        "eval_batch_size": 4,
+        "eval_every_n": 100,
+        "first_order": false,
+        "init_seed": 0,
+        "inner_opt": {
+            "lr": 0.0001,
+            "name": "sgd"
+        },
+        "keep_every_n": 1000,
+        "max_steps": 20000,
+        "model_seed": 0,
+        "num_batch_accumulated": 3,
+        "num_eval_items": 50,
+        "report_every_n": 10,
+        "save_every_n": 100,
+        "save_threshold": 19000,
+        "use_bert_training": true
+    },
+    "model": {
+        "decoder": {
+            "desc_attn": "mha",
+            "dropout": 0.20687225956012834,
+            "enc_recurrent_size": 768,
+            "enumerate_order": false,
+            "loss_type": "softmax",
+            "name": "NL2CodeV2",
+            "recurrent_size": 512,
+            "use_align_loss": false,
+            "use_align_mat": true
+        },
+        "decoder_preproc": {
+            "grammar": {
+                "end_with_from": true,
+                "include_literals": true,
+                "infer_from_conditions": true,
+                "name": "spiderv2"
+            },
+            "max_count": 5000,
+            "min_freq": 32,
+            "save_path": "data/vi-spider/spider-0727-FPTAI/velectra-base-discriminator-cased,other_train-true,sc_link=false,cv_link=false",
+            "use_seq_elem_rules": true,
+            "value_tokenizer": "FPTAI/velectra-base-discriminator-cased"
+        },
+        "encoder": {
+            "bert_token_type": false,
+            "bert_version": "FPTAI/velectra-base-discriminator-cased",
+            "linking_config": {
+                "name": "spider_string_matching"
+            },
+            "name": "spider-bert",
+            "rat_config": {
+                "enable_latent_relations": false,
+                "name": "rat",
+                "num_heads": 8,
+                "num_layers": 6
+            }
+        },
+        "encoder_preproc": {
+            "bert_version": "FPTAI/velectra-base-discriminator-cased",
+            "compute_cv_link": false,
+            "compute_sc_link": false,
+            "context": {
+                "db_paths": [
+                    "data/vi-spider/data/spider/database"
+                ],
+                "name": "spider-bert"
+            },
+            "save_path": "data/vi-spider/spider-0727-FPTAI/velectra-base-discriminator-cased,other_train-true,sc_link=false,cv_link=false"
+        },
+        "name": "EncDecV2"
+    },
+    "model_name": "bs=4,lr=6.0e-05,end_lr=0e0,att=0",
+    "optimizer": {
+        "bert_lr": 0,
+        "lr": 0,
+        "name": "torchAdamw"
+    },
+    "pretrain": {
+        "checkpoint_step": null,
+        "pretrain_path": null
+    },
+    "train": {
+        "batch_size": 4,
+        "clip_grad": 0.3,
+        "data_seed": 0,
+        "device": "cuda:0",
+        "eval_batch_size": 4,
+        "eval_every_n": 100,
+        "init_seed": 0,
+        "keep_every_n": 1000,
+        "max_steps": 20000,
+        "model_seed": 0,
+        "num_batch_accumulated": 3,
+        "num_eval_items": 50,
+        "report_every_n": 10,
+        "save_every_n": 100,
+        "save_threshold": 19000,
+        "use_bert_training": true
+    }
+}
